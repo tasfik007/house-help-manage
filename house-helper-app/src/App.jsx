@@ -17,7 +17,9 @@ function App() {
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
   const [showAddHelper, setShowAddHelper] = useState(false);
   const [showWorkModal, setShowWorkModal] = useState(false);
+  const [showSalaryModal, setShowSalaryModal] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
+  const [salaryData, setSalaryData] = useState(null);
 
   const [newHelper, setNewHelper] = useState({
     name: "",
@@ -79,21 +81,18 @@ function App() {
 
   const calculateSalary = (helperId, helperName, perUnitTaka) => {
     let totalUnits = 0;
-    const workDates = [];
 
     // Calculate total units for the selected month/year
     Object.keys(workRecords).forEach((dateKey) => {
       const parts = dateKey.split("-");
       const year = parseInt(parts[0]);
       const month = parseInt(parts[1]);
-      const day = parseInt(parts[2]);
 
       // Check if this date is in the selected month/year
       if (year === selectedYear && month === selectedMonth + 1) {
         if (workRecords[dateKey][helperId]) {
           const units = workRecords[dateKey][helperId];
           totalUnits += units;
-          workDates.push({ date: `${months[selectedMonth]} ${day}`, units });
         }
       }
     });
@@ -102,25 +101,14 @@ function App() {
     const dailyRate = monthlyRate / 30;
     const totalSalary = dailyRate * totalUnits;
 
-    // Create detailed message
-    let message = `Salary Details for ${helperName}\n`;
-    message += `Month: ${months[selectedMonth]} ${selectedYear}\n\n`;
-    message += `Monthly Rate: ৳${perUnitTaka}\n`;
-    message += `Daily Rate: ৳${dailyRate.toFixed(2)} (Monthly Rate ÷ 30)\n`;
-    message += `Total Units Worked: ${totalUnits}\n\n`;
-
-    if (workDates.length > 0) {
-      message += `Work Breakdown:\n`;
-      workDates.forEach(({ date, units }) => {
-        message += `  ${date}: ${units} units\n`;
-      });
-      message += `\n`;
-    }
-
-    message += `Calculation: ৳${dailyRate.toFixed(2)} × ${totalUnits} units\n`;
-    message += `Total Salary: ৳${totalSalary.toFixed(2)}`;
-
-    alert(message);
+    setSalaryData({
+      helperName,
+      month: months[selectedMonth],
+      year: selectedYear,
+      totalUnits,
+      totalSalary: totalSalary.toFixed(2),
+    });
+    setShowSalaryModal(true);
   };
 
   const getDaysInMonth = (year, month) => {
@@ -339,7 +327,7 @@ function App() {
                 <strong>এনাআইডি:</strong> {helper.nid}
               </p>
               <p>
-                <strong>প্রত্যেক কাজের জন্য পাবে:</strong> ৳{helper.perUnitTaka}
+                <strong>প্রতি কাজের জন্য পাবে:</strong> ৳{helper.perUnitTaka}
               </p>
               <button
                 className="btn btn-primary pay-salary-btn"
@@ -500,6 +488,39 @@ function App() {
                 Close
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {showSalaryModal && salaryData && (
+        <div className="modal-overlay" onClick={() => setShowSalaryModal(false)}>
+          <div className="salary-modal" onClick={(e) => e.stopPropagation()}>
+            <h2>বেতনের তথ্য</h2>
+            <div className="salary-details">
+              <div className="salary-row">
+                <span className="salary-label">বুয়ার নাম:</span>
+                <span className="salary-value">{salaryData.helperName}</span>
+              </div>
+              <div className="salary-row">
+                <span className="salary-label">মাস:</span>
+                <span className="salary-value">{salaryData.month} {salaryData.year}</span>
+              </div>
+              <div className="salary-row">
+                <span className="salary-label">মোট ইউনিট:</span>
+                <span className="salary-value">{salaryData.totalUnits}</span>
+              </div>
+              <div className="salary-total">
+                <span className="total-label">মোট বেতন:</span>
+                <span className="total-amount">৳{salaryData.totalSalary}</span>
+              </div>
+            </div>
+            <button
+              className="btn btn-primary"
+              onClick={() => setShowSalaryModal(false)}
+              style={{ width: '100%', marginTop: '20px' }}
+            >
+              বন্ধ করুন
+            </button>
           </div>
         </div>
       )}
