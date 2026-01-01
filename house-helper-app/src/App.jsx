@@ -280,7 +280,7 @@ function App() {
 
       {showAddHelper && (
         <div className="add-helper-form">
-          <h2>Add New বুয়া</h2>
+          <h2>নতুন বুয়া যোগ করুন</h2>
           <form onSubmit={addHelper}>
             <div className="form-group">
               <label>Name:</label>
