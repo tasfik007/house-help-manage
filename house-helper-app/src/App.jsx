@@ -336,10 +336,10 @@ function App() {
               </button>
               <h3>{helper.name}</h3>
               <p>
-                <strong>NID:</strong> {helper.nid}
+                <strong>এনাআইডি:</strong> {helper.nid}
               </p>
               <p>
-                <strong>Per Unit Taka:</strong> ৳{helper.perUnitTaka}
+                <strong>প্রত্যেক কাজের জন্য পাবে:</strong> ৳{helper.perUnitTaka}
               </p>
               <button
                 className="btn btn-primary pay-salary-btn"
