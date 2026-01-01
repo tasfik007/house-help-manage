@@ -274,7 +274,7 @@ function App() {
           className="btn btn-primary"
           onClick={() => setShowAddHelper(!showAddHelper)}
         >
-          {showAddHelper ? "Cancel" : "বুয়া যোগ করুন"}
+          {showAddHelper ? "বাতিল" : "বুয়া যোগ করুন"}
         </button>
       </header>
 
@@ -283,7 +283,7 @@ function App() {
           <h2>নতুন বুয়া যোগ করুন</h2>
           <form onSubmit={addHelper}>
             <div className="form-group">
-              <label>Name:</label>
+              <label>নাম:</label>
               <input
                 type="text"
                 value={newHelper.name}
@@ -294,7 +294,7 @@ function App() {
               />
             </div>
             <div className="form-group">
-              <label>NID Number:</label>
+              <label>এনাইডি নম্বর:</label>
               <input
                 type="text"
                 value={newHelper.nid}
@@ -305,7 +305,7 @@ function App() {
               />
             </div>
             <div className="form-group">
-              <label>Per Unit Taka:</label>
+              <label>প্রত্যেক কাজের জন্য কত পাবে?</label>
               <input
                 type="number"
                 value={newHelper.perUnitTaka}
