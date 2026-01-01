@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://tasfik007.github.io/bua-aschcey/",
+  "homepage": "https://tasfik007.github.io/house-help-manage/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
